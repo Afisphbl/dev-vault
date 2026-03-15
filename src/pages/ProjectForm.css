@@ -1,0 +1,142 @@
+.form-page {
+  max-width: 800px;
+}
+
+.form-header {
+  margin-bottom: var(--spacing-xl);
+}
+
+.back-btn {
+  display: inline-flex;
+  margin-bottom: var(--spacing-md);
+  color: var(--text-muted);
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.back-btn:hover {
+  background: transparent;
+  color: var(--text-main);
+  text-decoration: underline;
+}
+
+.form-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: var(--spacing-xs);
+}
+
+.form-subtitle {
+  color: var(--text-muted);
+}
+
+.form-card {
+  background-color: var(--surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.form-section {
+  padding: var(--spacing-xl);
+  border-bottom: 1px solid var(--border);
+}
+
+.form-section:last-of-type {
+  border-bottom: none;
+}
+
+.form-section h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-lg);
+  color: var(--text-main);
+}
+
+.form-row {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.image-upload-area {
+  width: 100%;
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2xl);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: var(--background);
+  text-align: center;
+}
+
+.upload-placeholder:hover {
+  border-color: var(--primary);
+  background-color: rgba(28, 116, 233, 0.05);
+}
+
+.upload-icon {
+  color: var(--text-muted);
+  margin-bottom: var(--spacing-sm);
+}
+
+.upload-text {
+  font-weight: 500;
+  color: var(--text-main);
+  margin-bottom: var(--spacing-xs);
+}
+
+.upload-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.hidden-input {
+  display: none;
+}
+
+.image-preview {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.change-image-btn {
+  position: absolute;
+  bottom: var(--spacing-md);
+  right: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-actions {
+  padding: var(--spacing-lg) var(--spacing-xl);
+  background-color: var(--background);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+}
+
+.border-top {
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 640px) {
+  .form-row {
+    flex-direction: column;
+  }
+}
