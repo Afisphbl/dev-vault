@@ -5,6 +5,8 @@ import {
   firebaseSignUp,
   firebaseSignIn,
   firebaseSignOut,
+  firebaseSignInWithGoogle,
+  firebaseSignInWithGithub,
 } from "../firebase/auth";
 const AuthContext = createContext();
 
@@ -39,6 +41,8 @@ export const AuthProvider = ({ children }) => {
     signup,
     login,
     logout,
+    firebaseSignInWithGoogle,
+    firebaseSignInWithGithub,
   };
 
   return (
