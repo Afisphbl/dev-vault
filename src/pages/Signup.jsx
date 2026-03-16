@@ -11,7 +11,8 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { signup, firebaseSignInWithGoogle, firebaseSignInWithGithub } = useAuth();
+  const { signup, firebaseSignInWithGoogle, firebaseSignInWithGithub } =
+    useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
