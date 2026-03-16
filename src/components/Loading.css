@@ -1,0 +1,17 @@
+.loading {
+  display: block;
+  margin: 2rem auto;
+}
+
+.spin {
+  color: var(--primary);
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

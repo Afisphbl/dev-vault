@@ -36,7 +36,7 @@ const EditProject = () => {
 
       setError("Project not found");
     }
-  }, []);
+  }, [id, getProject]);
 
   useEffect(() => {
     loadProject();

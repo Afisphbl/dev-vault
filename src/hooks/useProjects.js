@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../context/AuthContext";
 import {
   createProject,
@@ -32,27 +32,19 @@ const initialProjects = [
 export const useProjects = () => {
   const { currentUser } = useAuth();
   const [projects, setProjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const loadProjects = async () => {
+  const loadProjects = useCallback(async () => {
     if (!currentUser) return;
+    setIsLoading(true);
     const data = await getUserProjects(currentUser.uid);
     setProjects(data);
-  };
+    setIsLoading(false);
+  }, []);
 
   useEffect(() => {
     loadProjects();
-  }, [currentUser]);
-
-  //   useEffect(() => {
-  //   const loadProject = async () => {
-  //     const foundProject = await getProject(id);
-  //     if (foundProject) {
-  //       setProject(foundProject);
-  //     }
-  //   };
-
-  //   loadProject();
-  // }, [id]);
+  }, [loadProjects]);
 
   const addProject = async (project) => {
     const newProject = {
@@ -75,12 +67,13 @@ export const useProjects = () => {
     loadProjects();
   };
 
-  const getProject = async (id) => {
+  const getProject = useCallback(async (id) => {
     return await getProjectById(id);
-  };
+  }, []);
 
   return {
     projects,
+    isLoading,
     addProject,
     editProject,
     deleteProject,
