@@ -55,15 +55,16 @@ const EditProject = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    setTimeout(() => {
-      editProject(id, formData);
-      setLoading(false);
+    try {
+      await editProject(id, formData);
       navigate("/dashboard");
-    }, 600);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (error) {

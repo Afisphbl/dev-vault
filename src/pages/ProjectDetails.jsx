@@ -11,10 +11,17 @@ const ProjectDetails = () => {
   const [project, setProject] = useState(null);
 
   useEffect(() => {
-    const foundProject = getProject(id);
-    if (foundProject) {
-      setProject(foundProject);
-    }
+    const loadProject = async () => {
+      try {
+        const foundProject = await getProject(id);
+        setProject(foundProject || null);
+      } catch (error) {
+        console.error("Failed to load project:", error.message);
+        setProject(null);
+      }
+    };
+
+    loadProject();
   }, [id, getProject]);
 
   const handleDelete = () => {

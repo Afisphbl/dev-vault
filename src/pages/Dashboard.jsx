@@ -67,7 +67,7 @@ const Dashboard = () => {
             Add Project
           </Link>
         </div>
-      ) : filteredProjects.length === 0 ? (
+      ) : !isLoading && filteredProjects.length === 0 ? (
         <div className="empty-state">
           <Search size={48} />
           <h3>No matches found</h3>
