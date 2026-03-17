@@ -12,6 +12,7 @@
 /build
 
 /src/constant/firebase.jsx
+/src/constant/supabase.jsx
 # misc
 .DS_Store
 .env.local
