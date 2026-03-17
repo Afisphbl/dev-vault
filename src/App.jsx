@@ -1,22 +1,35 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import {
+  SupabaseAuthContextProvider,
+  useSupabaseAuthContext,
+} from "./context/SupabaseAuthContext";
+import "./App.css";
 
 // Layout & Components
-import Navbar from './components/Navbar';
+import Navbar from "./components/Navbar";
 
 // Pages
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import Dashboard from './pages/Dashboard';
-import AddProject from './pages/AddProject';
-import EditProject from './pages/EditProject';
-import ProjectDetails from './pages/ProjectDetails';
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Dashboard from "./pages/Dashboard";
+import AddProject from "./pages/AddProject";
+import EditProject from "./pages/EditProject";
+import ProjectDetails from "./pages/ProjectDetails";
+import Loading from "./components/Loading";
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
-  const { currentUser } = useAuth();
-  
+  const { currentUser, isLoading } = useSupabaseAuthContext();
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   if (!currentUser) {
     return <Navigate to="/login" replace />;
   }
@@ -26,7 +39,7 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   return (
-    <AuthProvider>
+    <SupabaseAuthContextProvider>
       <Router>
         <div className="app-container">
           <Navbar />
@@ -38,43 +51,43 @@ function App() {
               <Route path="/signup" element={<Signup />} />
 
               {/* Protected Routes */}
-              <Route 
-                path="/dashboard" 
+              <Route
+                path="/dashboard"
                 element={
                   <ProtectedRoute>
                     <Dashboard />
                   </ProtectedRoute>
-                } 
+                }
               />
-              <Route 
-                path="/add-project" 
+              <Route
+                path="/add-project"
                 element={
                   <ProtectedRoute>
                     <AddProject />
                   </ProtectedRoute>
-                } 
+                }
               />
-              <Route 
-                path="/edit-project/:id" 
+              <Route
+                path="/edit-project/:id"
                 element={
                   <ProtectedRoute>
                     <EditProject />
                   </ProtectedRoute>
-                } 
+                }
               />
-              <Route 
-                path="/project/:id" 
+              <Route
+                path="/project/:id"
                 element={
                   <ProtectedRoute>
                     <ProjectDetails />
                   </ProtectedRoute>
-                } 
+                }
               />
             </Routes>
           </main>
         </div>
       </Router>
-    </AuthProvider>
+    </SupabaseAuthContextProvider>
   );
 }
 

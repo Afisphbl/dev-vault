@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { signUp } from "../supabase/auth";
 import { FolderGit2, UserPlus, Github } from "lucide-react";
 import "./Auth.css"; // Shared CSS with Login
 
@@ -11,45 +11,27 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { signup, firebaseSignInWithGoogle, firebaseSignInWithGithub } =
-    useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+
     if (password !== confirmPassword) {
       return setError("Passwords do not match");
     }
 
-    try {
-      setError("");
-      setLoading(true);
-      await signup(email, password);
-      navigate("/dashboard");
-    } catch (err) {
-      setError("Failed to create an account.");
-    } finally {
+    setLoading(true);
+
+    const { data, error } = await signUp(email, password);
+    console.log(data, error);
+    if (error) {
+      setError(error.message);
       setLoading(false);
+      return;
     }
-  };
 
-  const handleGoogleSignup = async () => {
-    try {
-      await firebaseSignInWithGoogle();
-      navigate("/dashboard");
-    } catch (error) {
-      console.error(error);
-      setError("Failed to sign up with Google: " + error.message);
-    }
-  };
-
-  const handleGithubSignup = async () => {
-    try {
-      await firebaseSignInWithGithub();
-      navigate("/dashboard");
-    } catch (error) {
-      console.error(error);
-      setError("Failed to sign up with GitHub: " + error.message);
-    }
+    setLoading(false);
+    navigate("/login");
   };
 
   return (
@@ -124,11 +106,7 @@ const Signup = () => {
         <div className="auth-divider">or continue with</div>
 
         <div className="social-auth">
-          <button
-            className="btn-social"
-            type="button"
-            onClick={handleGoogleSignup}
-          >
+          <button className="btn-social" type="button">
             <svg
               viewBox="0 0 24 24"
               width="18"
@@ -155,11 +133,7 @@ const Signup = () => {
             Google
           </button>
 
-          <button
-            className="btn-social"
-            type="button"
-            onClick={handleGithubSignup}
-          >
+          <button className="btn-social" type="button">
             <Github size={18} />
             GitHub
           </button>

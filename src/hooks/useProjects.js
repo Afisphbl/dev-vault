@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useSupabaseAuthContext } from "../context/SupabaseAuthContext";
 import {
   createProject,
   getUserProjects,
@@ -30,26 +30,32 @@ const initialProjects = [
 ];
 
 export const useProjects = () => {
-  const { currentUser } = useAuth();
+  const { currentUser } = useSupabaseAuthContext();
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const loadProjects = useCallback(async () => {
-    if (!currentUser) return;
+    if (!currentUser) {
+      setProjects([]);
+      return;
+    }
+
     setIsLoading(true);
-    const data = await getUserProjects(currentUser.uid);
+    const data = await getUserProjects(currentUser.id);
     setProjects(data);
     setIsLoading(false);
-  }, []);
+  }, [currentUser]);
 
   useEffect(() => {
     loadProjects();
   }, [loadProjects]);
 
   const addProject = async (project) => {
+    if (!currentUser) return;
+
     const newProject = {
       ...project,
-      userId: currentUser.uid,
+      userId: currentUser.id,
       createdAt: new Date().toISOString(),
     };
 

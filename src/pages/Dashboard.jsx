@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useSupabaseAuthContext } from "../context/SupabaseAuthContext";
 import { useProjects } from "../hooks/useProjects";
 import ProjectCard from "../components/ProjectCard";
 import { FolderGit2, PlusCircle, Search } from "lucide-react";
@@ -8,9 +8,10 @@ import Loading from "../components/Loading";
 import "./Dashboard.css";
 
 const Dashboard = () => {
-  const { isLoading } = useAuth();
-  const { projects, deleteProject } = useProjects();
+  const { isLoading: authLoading } = useSupabaseAuthContext();
+  const { projects, deleteProject, isLoading: projectsLoading } = useProjects();
   const [searchTerm, setSearchTerm] = useState("");
+  const isLoading = authLoading || projectsLoading;
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this project?")) {

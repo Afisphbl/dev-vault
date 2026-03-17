@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { logIn, loginWithGoogle, loginWithGitHub } from "../supabase/auth";
 import { FolderGit2, LogIn, Github } from "lucide-react";
 import "./Auth.css";
 
@@ -10,41 +10,32 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login, firebaseSignInWithGoogle, firebaseSignInWithGithub } =
-    useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      setError("");
-      setLoading(true);
-      await login(email, password);
-      navigate("/dashboard");
-    } catch (err) {
-      setError("Failed to log in. Please check your credentials.");
-    } finally {
+    setError("");
+    setLoading(true);
+
+    const { error } = await logIn(email, password);
+
+    if (error) {
+      setError(error.message);
       setLoading(false);
+      return;
     }
+
+    setLoading(false);
+    navigate("/dashboard");
   };
 
   const handleGoogleLogin = async () => {
-    try {
-      await firebaseSignInWithGoogle();
-      navigate("/dashboard");
-    } catch (error) {
-      console.error(error);
-      setError("Failed to log in with Google: " + error.message);
-    }
+    setError("");
+    await loginWithGoogle();
   };
 
-  const handleGithubLogin = async () => {
-    try {
-      await firebaseSignInWithGithub();
-      navigate("/dashboard");
-    } catch (error) {
-      console.error(error);
-      setError("Failed to log in with GitHub: " + error.message);
-    }
+  const handleGitHubLogin = async () => {
+    setError("");
+    await loginWithGitHub();
   };
 
   return (
@@ -136,7 +127,7 @@ const Login = () => {
           <button
             className="btn-social"
             type="button"
-            onClick={handleGithubLogin}
+            onClick={handleGitHubLogin}
           >
             <Github size={18} />
             GitHub
