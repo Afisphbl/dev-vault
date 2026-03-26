@@ -28,7 +28,9 @@ const ProtectedRoute = ({ children }) => {
   const { currentUser, isLoading } = useSupabaseAuthContext();
 
   if (isLoading) {
-    return <Loading />;
+    // While authentication state is being resolved, avoid rendering an additional
+    // loading indicator here so that the Suspense fallback can handle loading UI.
+    return null;
   }
 
   if (!currentUser) {
@@ -42,9 +44,9 @@ function App() {
   return (
     <SupabaseAuthContextProvider>
       <Router>
-        <Suspense fallback={<Loading />}>
-          <div className="app-container">
-            <Navbar />
+        <div className="app-container">
+          <Navbar />
+          <Suspense fallback={<Loading />}>
             <main className="main-content">
               <Routes>
                 {/* Public Routes */}
@@ -90,8 +92,8 @@ function App() {
                 />
               </Routes>
             </main>
-          </div>
-        </Suspense>
+          </Suspense>
+        </div>
       </Router>
     </SupabaseAuthContextProvider>
   );
