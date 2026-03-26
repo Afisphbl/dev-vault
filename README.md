@@ -1,70 +1,157 @@
-# Getting Started with Create React App
+# DevVault
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+DevVault is a portfolio management web application for developers to store, organize, and showcase software projects in one place.
 
-## Available Scripts
+It provides secure authentication, protected routes, project CRUD operations, image upload support, and a clean dashboard experience for managing portfolio entries.
 
-In the project directory, you can run:
+## Live Purpose
 
-### `npm start`
+DevVault helps developers:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Keep project information organized and easy to maintain.
+- Showcase GitHub repositories and live demos in a structured format.
+- Update portfolio content quickly without rebuilding a static site.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Core Features
 
-### `npm test`
+- Authentication with Supabase (email/password).
+- Social login support (Google and GitHub in login flow).
+- Protected routes for authenticated users.
+- Project management:
+  - Create project entries.
+  - View all personal projects.
+  - Edit existing projects.
+  - Delete projects.
+- Project details page with GitHub and live demo links.
+- Image upload support for project screenshots.
+- Search/filter projects by title or description.
+- Lazy-loaded pages with React Suspense fallback.
+- Responsive UI with reusable components.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Tech Stack
 
-### `npm run build`
+- Frontend: React, React Router
+- Backend as a Service: Supabase (Auth, Database, Storage)
+- UI Icons: Lucide React
+- Build Tooling: Create React App (react-scripts)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Project Structure
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```text
+dev-vault/
+├── public/
+│   ├── index.html
+│   ├── manifest.json
+│   └── robots.txt
+├── src/
+│   ├── components/
+│   │   ├── Loading.jsx
+│   │   ├── Navbar.jsx
+│   │   └── ProjectCard.jsx
+│   ├── constant/
+│   │   └── supabase.js
+│   ├── context/
+│   │   └── SupabaseAuthContext.jsx
+│   ├── hooks/
+│   │   └── useProjects.js
+│   ├── pages/
+│   │   ├── Login.jsx
+│   │   ├── Signup.jsx
+│   │   ├── Dashboard.jsx
+│   │   ├── AddProject.jsx
+│   │   ├── EditProject.jsx
+│   │   └── ProjectDetails.jsx
+│   ├── supabase/
+│   │   ├── client.jsx
+│   │   ├── auth.jsx
+│   │   ├── projects.jsx
+│   │   └── strorage.jsx
+│   ├── App.jsx
+│   └── index.js
+├── package.json
+└── README.md
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Application Flow
 
-### `npm run eject`
+1. User signs up or logs in.
+2. Auth state is tracked through a centralized context provider.
+3. Protected routes block unauthorized access.
+4. Authenticated users manage portfolio projects from the dashboard.
+5. Project data is persisted in Supabase.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Getting Started
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Prerequisites
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Node.js 18+
+- npm 9+
+- A Supabase project
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Installation
 
-## Learn More
+```bash
+npm install
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Configure Supabase
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Update Supabase credentials in:
 
-### Code Splitting
+- `src/constant/supabase.js`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Recommended setup for production:
 
-### Analyzing the Bundle Size
+- Move keys to environment variables.
+- Avoid committing live project credentials to source control.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Run in Development
 
-### Making a Progressive Web App
+```bash
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Open http://localhost:3000 in your browser.
 
-### Advanced Configuration
+### Build for Production
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```bash
+npm run build
+```
 
-### Deployment
+### Run Tests
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```bash
+npm test
+```
 
-### `npm run build` fails to minify
+## Current Highlights
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Modular component structure for easier maintenance.
+- Reusable project hook (`useProjects`) for data operations.
+- Central auth context for consistent user/session state.
+- User-friendly empty states and loading feedback.
+
+## Future Improvements
+
+- Add role-based permissions and profile settings.
+- Implement form validation with clearer error handling.
+- Add pagination or infinite scroll for large project lists.
+- Add tags/skills and advanced filters.
+- Add unit and integration test coverage for critical flows.
+- Add CI/CD pipeline for automated testing and deployment.
+- Add analytics and activity logging.
+- Improve accessibility (ARIA, keyboard navigation, contrast audits).
+- Add export/share options for public portfolio views.
+
+## Author
+
+**Abduselam Seid**  
+Also known as **Afis**
+
+- GitHub: https://github.com/Afisphbl
+
+## License
+
+This project is currently unlicensed.  
+Consider adding a license (for example MIT) to define usage rights.
